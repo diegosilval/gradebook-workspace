@@ -1,0 +1,10 @@
+//
+// Add a submission
+//
+Liferay.Service('/gradebook.submission/add-submission', {
+	assignmentId: 1,
+	studentId: 20139,
+	submissionText: 'Cheesecake with strawberries and blueberries.'
+}, function(obj) {
+	console.log(obj);
+});

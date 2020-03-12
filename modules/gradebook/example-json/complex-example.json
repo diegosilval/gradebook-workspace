@@ -1,0 +1,28 @@
+//
+// A complex example:
+//
+Liferay.Service({
+	'$company[companyId] = /company/get-company-by-virtual-host' : {
+		virtualHost: 'localhost',
+		'$group[groupId] = /group/get-company-group': {
+			'@companyId': '$company.companyId',
+			'$student[userId] = /user/get-user-by-screen-name':{
+				'@companyId': '$company.companyId',
+				screenName: 'test',
+				'$assignment = /gradebook.assignment/add-assignment': {
+					'@groupId': '$group.groupId',
+					titleMap: { 'en_US': 'How to make birhday cake'},
+					description: 'Design most delicious and beautifull birthday cake. Serve that to who deserves it.',
+					dueDate: (new Date('2018-05-22')).getTime(),
+					'$submission = /gradebook.submission/add-submission': {
+						'@assignmentId': '$assignment.assignmentId',
+						'@studentId': '$student.userId',
+						submissionText: 'Cheesecake with straberries and blueberries'
+					}
+				}
+			}
+	  }
+	}
+}, function(obj) {
+		console.log(obj);
+});

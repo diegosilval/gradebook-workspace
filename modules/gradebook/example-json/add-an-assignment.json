@@ -1,0 +1,11 @@
+//
+// Add a new assignment
+//
+Liferay.Service('/gradebook.assignment/add-assignment', {
+	groupId: 20126,
+	title: { 'en_US': 'How to make a birthday cake'},
+	description: 'Design most delicious and beautiful birthday cake.',
+	dueDate: (new Date('2018-05-22')).getTime()
+}, function(obj) {
+	console.log(obj);
+});
