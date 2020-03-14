@@ -68,6 +68,14 @@ public class AssignmentServiceWrapper
 		return _assignmentService.findByGroupId(groupId, start, end);
 	}
 
+	@Override
+	public com.vasslatam.training.gradebook.model.Assignment getAssignment(
+			long assignmentId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _assignmentService.getAssignment(assignmentId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

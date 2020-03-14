@@ -137,16 +137,17 @@ public class AssignmentServiceHttp {
 		}
 	}
 
-	public static java.util.List
-		<com.vasslatam.training.gradebook.model.Assignment> findByGroupId(
-			HttpPrincipal httpPrincipal, long groupId) {
+	public static com.vasslatam.training.gradebook.model.Assignment
+			getAssignment(HttpPrincipal httpPrincipal, long assignmentId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				AssignmentServiceUtil.class, "findByGroupId",
-				_findByGroupIdParameterTypes2);
+				AssignmentServiceUtil.class, "getAssignment",
+				_getAssignmentParameterTypes2);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, groupId);
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, assignmentId);
 
 			Object returnObj = null;
 
@@ -154,12 +155,18 @@ public class AssignmentServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
 
-			return (java.util.List
-				<com.vasslatam.training.gradebook.model.Assignment>)returnObj;
+			return (com.vasslatam.training.gradebook.model.Assignment)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException
 					systemException) {
@@ -170,17 +177,22 @@ public class AssignmentServiceHttp {
 		}
 	}
 
-	public static java.util.List
-		<com.vasslatam.training.gradebook.model.Assignment> findByGroupId(
-			HttpPrincipal httpPrincipal, long groupId, int start, int end) {
+	public static com.vasslatam.training.gradebook.model.Assignment
+			updateAssignment(
+				HttpPrincipal httpPrincipal, long assignmentId,
+				java.util.Map<java.util.Locale, String> titleMap,
+				String description, java.util.Date dueDate,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				AssignmentServiceUtil.class, "findByGroupId",
-				_findByGroupIdParameterTypes3);
+				AssignmentServiceUtil.class, "updateAssignment",
+				_updateAssignmentParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, groupId, start, end);
+				methodKey, assignmentId, titleMap, description, dueDate,
+				serviceContext);
 
 			Object returnObj = null;
 
@@ -188,12 +200,18 @@ public class AssignmentServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
 
-			return (java.util.List
-				<com.vasslatam.training.gradebook.model.Assignment>)returnObj;
+			return (com.vasslatam.training.gradebook.model.Assignment)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException
 					systemException) {
@@ -235,22 +253,16 @@ public class AssignmentServiceHttp {
 		}
 	}
 
-	public static com.vasslatam.training.gradebook.model.Assignment
-			updateAssignment(
-				HttpPrincipal httpPrincipal, long assignmentId,
-				java.util.Map<java.util.Locale, String> titleMap,
-				String description, java.util.Date dueDate,
-				com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static java.util.List
+		<com.vasslatam.training.gradebook.model.Assignment> findByGroupId(
+			HttpPrincipal httpPrincipal, long groupId) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				AssignmentServiceUtil.class, "updateAssignment",
-				_updateAssignmentParameterTypes5);
+				AssignmentServiceUtil.class, "findByGroupId",
+				_findByGroupIdParameterTypes5);
 
-			MethodHandler methodHandler = new MethodHandler(
-				methodKey, assignmentId, titleMap, description, dueDate,
-				serviceContext);
+			MethodHandler methodHandler = new MethodHandler(methodKey, groupId);
 
 			Object returnObj = null;
 
@@ -258,18 +270,46 @@ public class AssignmentServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
-				if (exception instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						exception;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
 
-			return (com.vasslatam.training.gradebook.model.Assignment)returnObj;
+			return (java.util.List
+				<com.vasslatam.training.gradebook.model.Assignment>)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static java.util.List
+		<com.vasslatam.training.gradebook.model.Assignment> findByGroupId(
+			HttpPrincipal httpPrincipal, long groupId, int start, int end) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				AssignmentServiceUtil.class, "findByGroupId",
+				_findByGroupIdParameterTypes6);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, groupId, start, end);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (java.util.List
+				<com.vasslatam.training.gradebook.model.Assignment>)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException
 					systemException) {
@@ -290,16 +330,18 @@ public class AssignmentServiceHttp {
 		};
 	private static final Class<?>[] _deleteAssignmentParameterTypes1 =
 		new Class[] {long.class};
-	private static final Class<?>[] _findByGroupIdParameterTypes2 =
+	private static final Class<?>[] _getAssignmentParameterTypes2 =
 		new Class[] {long.class};
-	private static final Class<?>[] _findByGroupIdParameterTypes3 =
-		new Class[] {long.class, int.class, int.class};
-	private static final Class<?>[] _countByGroupIdParameterTypes4 =
-		new Class[] {long.class};
-	private static final Class<?>[] _updateAssignmentParameterTypes5 =
+	private static final Class<?>[] _updateAssignmentParameterTypes3 =
 		new Class[] {
 			long.class, java.util.Map.class, String.class, java.util.Date.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
 		};
+	private static final Class<?>[] _countByGroupIdParameterTypes4 =
+		new Class[] {long.class};
+	private static final Class<?>[] _findByGroupIdParameterTypes5 =
+		new Class[] {long.class};
+	private static final Class<?>[] _findByGroupIdParameterTypes6 =
+		new Class[] {long.class, int.class, int.class};
 
 }

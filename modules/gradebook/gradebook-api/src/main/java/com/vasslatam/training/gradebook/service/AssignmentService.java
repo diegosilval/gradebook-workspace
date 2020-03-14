@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
+import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
 import com.vasslatam.training.gradebook.model.Assignment;
@@ -68,6 +69,9 @@ public interface AssignmentService extends BaseService {
 	public List<Assignment> findByGroupId(long groupId);
 
 	public List<Assignment> findByGroupId(long groupId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Assignment getAssignment(long assignmentId) throws PortalException;
 
 	/**
 	 * Returns the OSGi service identifier.

@@ -55,28 +55,48 @@ public class AssignmentServiceImpl extends AssignmentServiceBaseImpl {
 	 * Never reference this class directly. Always use <code>com.vasslatam.training.gradebook.service.AssignmentServiceUtil</code> to access the assignment remote service.
 	 */
 	public Assignment addAssignment(long groupId, Map<Locale, String> title, String description, Date dueDate, ServiceContext serviceContext) throws PortalException {
+
+		// [Permission checks will be added here later]
+		
 		return assignmentLocalService.addAssignment(groupId, title, description, dueDate, serviceContext);
+	}
 	
-	}
 	public Assignment deleteAssignment(long assignmentId) throws PortalException {
-		return assignmentLocalService.deleteAssignment(assignmentId);
+		Assignment assignment = assignmentLocalService.getAssignment(assignmentId);
 		
-	}
-	public List<Assignment> findByGroupId(long groupId){
-		return assignmentLocalService.findByGroupId(groupId);
-				
+		// [Permission checks will be added here later]
 		
+		return assignmentLocalService.deleteAssignment(assignment);
 	}
-	public List<Assignment> findByGroupId(long groupId, int start, int end){
-		return assignmentLocalService.findByGroupId(groupId, start, end);
+	
+	
+	public Assignment getAssignment(long assignmentId) throws PortalException {	
+		Assignment assignment = assignmentLocalService.getAssignment(assignmentId);
 		
+		// [Permission checks will be added here later]
+	
+		return assignment;
 	}
-	public int countByGroupId(long groupId) {
-		return assignmentLocalService.countByGroupId(groupId);
-		
-	}
+	
 	public Assignment updateAssignment(long assignmentId, Map<Locale, String> titleMap, String description, Date dueDate, ServiceContext serviceContext) throws PortalException {
-		return assignmentLocalService.updateAssignment(assignmentId, titleMap, description, dueDate, serviceContext);
+
+		// [Permission checks will be added here later]
 		
+		return assignmentLocalService.updateAssignment(assignmentId, titleMap, description, dueDate, serviceContext);
+	}
+
+	@Override
+	public int countByGroupId(long groupId) { 
+		return assignmentLocalService.countByGroupId(groupId);
+	}
+
+	@Override
+	public List<Assignment> findByGroupId(long groupId) { 
+		return assignmentLocalService.findByGroupId(groupId);
+	}
+
+	@Override
+	public List<Assignment> findByGroupId(long groupId, int start, int end) {
+		return assignmentLocalService.findByGroupId(groupId,start,end);
 	}
 }

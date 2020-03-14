@@ -73,6 +73,13 @@ public class AssignmentServiceUtil {
 		return getService().findByGroupId(groupId, start, end);
 	}
 
+	public static com.vasslatam.training.gradebook.model.Assignment
+			getAssignment(long assignmentId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getAssignment(assignmentId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

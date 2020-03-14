@@ -109,6 +109,64 @@ public class AssignmentServiceSoap {
 		}
 	}
 
+	public static com.vasslatam.training.gradebook.model.AssignmentSoap
+			getAssignment(long assignmentId)
+		throws RemoteException {
+
+		try {
+			com.vasslatam.training.gradebook.model.Assignment returnValue =
+				AssignmentServiceUtil.getAssignment(assignmentId);
+
+			return com.vasslatam.training.gradebook.model.AssignmentSoap.
+				toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.vasslatam.training.gradebook.model.AssignmentSoap
+			updateAssignment(
+				long assignmentId, String[] titleMapLanguageIds,
+				String[] titleMapValues, String description,
+				java.util.Date dueDate,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			Map<Locale, String> titleMap = LocalizationUtil.getLocalizationMap(
+				titleMapLanguageIds, titleMapValues);
+
+			com.vasslatam.training.gradebook.model.Assignment returnValue =
+				AssignmentServiceUtil.updateAssignment(
+					assignmentId, titleMap, description, dueDate,
+					serviceContext);
+
+			return com.vasslatam.training.gradebook.model.AssignmentSoap.
+				toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static int countByGroupId(long groupId) throws RemoteException {
+		try {
+			int returnValue = AssignmentServiceUtil.countByGroupId(groupId);
+
+			return returnValue;
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
 	public static com.vasslatam.training.gradebook.model.AssignmentSoap[]
 			findByGroupId(long groupId)
 		throws RemoteException {
@@ -138,46 +196,6 @@ public class AssignmentServiceSoap {
 
 			return com.vasslatam.training.gradebook.model.AssignmentSoap.
 				toSoapModels(returnValue);
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
-
-			throw new RemoteException(exception.getMessage());
-		}
-	}
-
-	public static int countByGroupId(long groupId) throws RemoteException {
-		try {
-			int returnValue = AssignmentServiceUtil.countByGroupId(groupId);
-
-			return returnValue;
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
-
-			throw new RemoteException(exception.getMessage());
-		}
-	}
-
-	public static com.vasslatam.training.gradebook.model.AssignmentSoap
-			updateAssignment(
-				long assignmentId, String[] titleMapLanguageIds,
-				String[] titleMapValues, String description,
-				java.util.Date dueDate,
-				com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws RemoteException {
-
-		try {
-			Map<Locale, String> titleMap = LocalizationUtil.getLocalizationMap(
-				titleMapLanguageIds, titleMapValues);
-
-			com.vasslatam.training.gradebook.model.Assignment returnValue =
-				AssignmentServiceUtil.updateAssignment(
-					assignmentId, titleMap, description, dueDate,
-					serviceContext);
-
-			return com.vasslatam.training.gradebook.model.AssignmentSoap.
-				toSoapModel(returnValue);
 		}
 		catch (Exception exception) {
 			_log.error(exception, exception);
