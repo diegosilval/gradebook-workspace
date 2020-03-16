@@ -11,8 +11,12 @@
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field localized="true" name="title" type="String" />
-		<field name="description" type="String" />
-		<field name="dueDate" type="Date" />
+		<field name="description" type="String">
+			<hint name="editor">true</hint>
+		</field>
+		<field name="dueDate" type="Date">
+			<hint name="show-time">false</hint>
+		</field>
 		<field name="status" type="int" />
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
