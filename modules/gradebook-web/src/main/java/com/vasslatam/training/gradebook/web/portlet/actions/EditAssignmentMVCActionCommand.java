@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -50,7 +51,18 @@ public class EditAssignmentMVCActionCommand implements MVCActionCommand {
 			long groupId = themeDisplay.getScopeGroupId();
 			ServiceContext serviceContext = ServiceContextFactory.getInstance(actionRequest);
 			
-			_assignmentService.addAssignment(groupId, title, description, dueDate, serviceContext);
+			String cmd=ParamUtil.getString(actionRequest, "CMD");
+			switch(cmd) {
+				case Constants.ADD:
+					_assignmentService.addAssignment(groupId, title, description, dueDate, serviceContext);
+					break;
+				case Constants.EDIT:
+					long assignmentId=ParamUtil.getLong(actionRequest, "assignmentId");
+					_assignmentService.updateAssignment(assignmentId, title, description, dueDate, serviceContext);
+					break;
+			}
+			
+			
 			
 			
 		} catch (PortalException e) {

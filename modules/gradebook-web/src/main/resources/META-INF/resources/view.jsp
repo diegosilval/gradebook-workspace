@@ -1,24 +1,42 @@
-<%@page import="java.util.List"%>
+<%@page import="com.vasslatam.training.gradebook.service.AssignmentServiceUtil"%>
 <%@ include file="init.jsp" %>
 
 <liferay-portlet:renderURL var="newAssignmentURL">
 	<portlet:param name="mvcRenderCommandName"
 				value="<%=MVCCommandNames.EDIT_ASSIGNMENT %>" />
+	<portlet:param name="backURL" value="<%= currentURL %>"/>
+	<portlet:param name="CMD" value="<%=Constants.ADD %>"/>
 </liferay-portlet:renderURL>
 
-<aui:button href="${newAssignmentURL }" value="new"/>
+<aui:button href="${newAssignmentURL }" value="new"/>  
 
-<% List<Assignment> assignments=(List<Assignment>)renderRequest.getAttribute("assignments");  %>
-
-<table>
-	<thead>
-	</thead>
-	<tbody>
-		<%for(Assignment item:assignments){ %>
-			<tr>
-				<td><%= item.getTitle(locale) %> </td> 
-				<td><%=item.getDescription() %></td>
-			</tr>
-		<%} %>
-	</tbody>
-</table>
+<liferay-ui:search-container total="${assignmentsCount }" delta="5" >
+	<liferay-ui:search-container-results results="${assignments}" />
+	
+	<liferay-ui:search-container-row className="com.vasslatam.training.gradebook.model.Assignment" modelVar="item" >
+		<liferay-ui:search-container-column-text name="assignment.title"  >
+			<%= item.getTitle(locale) %>
+		</liferay-ui:search-container-column-text>
+		<liferay-ui:search-container-column-text title="assignment.description" property="description"/>
+		<liferay-ui:search-container-column-text>
+			<liferay-ui:icon-menu markupView="lexicon">
+						<liferay-portlet:renderURL var="editAssignmentURL">
+							<portlet:param name="mvcRenderCommandName"
+										value="<%=MVCCommandNames.EDIT_ASSIGNMENT %>" />
+							<portlet:param name="assignmentId" value="<%= String.valueOf(  item.getAssignmentId() )%>"/>
+							<portlet:param name="backURL" value="<%= currentURL %>"/>
+						</liferay-portlet:renderURL>
+						<liferay-ui:icon message="edit" url="${editAssignmentURL }"  />
+						
+						<liferay-portlet:actionURL var="deleteAssignmentURL" name="<%=MVCCommandNames.DELETE_ASSIGNMENT %>">
+							<portlet:param name="assignmentId" value="<%= String.valueOf(  item.getAssignmentId() )%>"/>
+						</liferay-portlet:actionURL>
+						<liferay-ui:icon-delete url="${deleteAssignmentURL }"></liferay-ui:icon-delete>
+					</liferay-ui:icon-menu>
+		</liferay-ui:search-container-column-text>
+	</liferay-ui:search-container-row>
+	
+	<liferay-ui:search-iterator />
+	
+</liferay-ui:search-container>
+ 
