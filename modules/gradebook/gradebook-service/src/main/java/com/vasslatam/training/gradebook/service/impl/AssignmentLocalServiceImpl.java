@@ -23,6 +23,7 @@ import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.vasslatam.training.gradebook.model.Assignment;
@@ -32,76 +33,94 @@ import com.vasslatam.training.gradebook.service.base.AssignmentLocalServiceBaseI
  * The implementation of the assignment local service.
  *
  * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the <code>com.vasslatam.training.gradebook.service.AssignmentLocalService</code> interface.
+ * All custom service methods should be put in this class. Whenever methods are
+ * added, rerun ServiceBuilder to copy their definitions into the
+ * <code>com.vasslatam.training.gradebook.service.AssignmentLocalService</code>
+ * interface.
  *
  * <p>
- * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
+ * This is a local service. Methods of this service will not have security
+ * checks based on the propagated JAAS credentials because this service can only
+ * be accessed from within the same VM.
  * </p>
  *
  * @author Brian Wing Shun Chan
  * @see AssignmentLocalServiceBaseImpl
  */
-@Component(
-	property = "model.class.name=com.vasslatam.training.gradebook.model.Assignment",
-	service = AopService.class
-)
+@Component(property = "model.class.name=com.vasslatam.training.gradebook.model.Assignment", service = AopService.class)
 public class AssignmentLocalServiceImpl extends AssignmentLocalServiceBaseImpl {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Use <code>com.vasslatam.training.gradebook.service.AssignmentLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>com.vasslatam.training.gradebook.service.AssignmentLocalServiceUtil</code>.
+	 * Never reference this class directly. Use
+	 * <code>com.vasslatam.training.gradebook.service.AssignmentLocalService</code>
+	 * via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use
+	 * <code>com.vasslatam.training.gradebook.service.AssignmentLocalServiceUtil</
+	 * code>.
 	 */
-	
-	public Assignment addAssignment(long groupId, Map<Locale, String> titleMap, String description, Date dueDate, ServiceContext serviceContext) throws PortalException {
+
+	public Assignment addAssignment(long groupId, Map<Locale, String> titleMap, String description, Date dueDate,
+			ServiceContext serviceContext) throws PortalException {
 		long assignmentId = counterLocalService.increment(Assignment.class.getName());
-		Assignment  assignment = createAssignment(assignmentId);
+		Assignment assignment = createAssignment(assignmentId);
 		assignment.setTitleMap(titleMap);
 		assignment.setDescription(description);
 		assignment.setDueDate(dueDate);
-		assignment.setGroupId(groupId);		
-		
+		assignment.setGroupId(groupId);
+
 		long companyId = serviceContext.getCompanyId();
 		assignment.setCompanyId(companyId);
-		
+
 		long userId = serviceContext.getUserId();
 		assignment.setUserId(userId);
-		
-		User user=userLocalService.getUserById(userId);
-		assignment.setUserName(user.getFullName() );
-		
+
+		User user = userLocalService.getUserById(userId);
+		assignment.setUserName(user.getFullName());
+
 		assignment.setCreateDate(serviceContext.getCreateDate(new Date()));
-		
-		return addAssignment(assignment);
-				
+
+		assignment = addAssignment(assignment);
+		boolean portletActions = false;
+		boolean addGroupPermissions = true;
+		boolean addGuestPermissions = true;
+
+		resourceLocalService.addResources(companyId, groupId, userId, Assignment.class.getName(), assignmentId,
+				portletActions, addGroupPermissions, addGuestPermissions);
+
+		return assignment;
+
 	}
-	
-	
+
 	public Assignment deleteAssignment(long assignmentId) throws PortalException {
 		Assignment assignment = getAssignment(assignmentId);
+		resourceLocalService.deleteResource(assignment, ResourceConstants.SCOPE_INDIVIDUAL);
 		return deleteAssignment(assignment);
 	}
-	
-	public List<Assignment> findByGroupId(long groupId){
+
+	public List<Assignment> findByGroupId(long groupId) {
 		return assignmentPersistence.findByGroupId(groupId);
 	}
-	
-	public List<Assignment> findByGroupId(long groupId, int start, int end){
-		return assignmentPersistence.findByGroupId(groupId,start,end);
+
+	public List<Assignment> findByGroupId(long groupId, int start, int end) {
+		return assignmentPersistence.findByGroupId(groupId, start, end);
 	}
-	
+
 	public int countByGroupId(long groupId) {
 		return assignmentPersistence.countByGroupId(groupId);
 	}
-	
-	
-	public Assignment updateAssignment(long assignmentId, Map<Locale, String> titleMap, String description, Date dueDate, ServiceContext serviceContext) throws PortalException {
+
+	public Assignment updateAssignment(long assignmentId, Map<Locale, String> titleMap, String description,
+			Date dueDate, ServiceContext serviceContext) throws PortalException {
 		Assignment assignment = getAssignment(assignmentId);
 		assignment.setTitleMap(titleMap);
 		assignment.setDescription(description);
 		assignment.setDueDate(dueDate);
-		assignment.setModifiedDate(  serviceContext.getModifiedDate(new Date())  );
-		
+		assignment.setModifiedDate(serviceContext.getModifiedDate(new Date()));
+
+		resourceLocalService.updateResources(assignment.getCompanyId(), assignment.getGroupId(),
+				Assignment.class.getName(), assignmentId, serviceContext.getModelPermissions());
+
 		return updateAssignment(assignment);
 	}
 }

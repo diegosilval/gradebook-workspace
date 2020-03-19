@@ -10,6 +10,11 @@ dependencies {
 	
 	compileOnly group: "javax.portlet", name: "portlet-api"
     compileOnly group: "javax.servlet", name: "javax.servlet-api"
+    
+    compileOnly group: "com.liferay", name: "com.liferay.petra.function"
+	compileOnly group: "com.liferay", name: "com.liferay.petra.model.adapter"
+	compileOnly group: "com.liferay", name: "com.liferay.petra.reflect"
+    
 	
 	compileOnly project(":modules:gradebook:gradebook-api")
 }

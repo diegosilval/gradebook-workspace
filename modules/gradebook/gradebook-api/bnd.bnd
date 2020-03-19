@@ -1,10 +1,11 @@
 Bundle-Name: gradebook-api
 Bundle-SymbolicName: com.vasslatam.training.gradebook.api
 Bundle-Version: 1.0.0
-Export-Package:\
+Export-Package: \
 	com.vasslatam.training.gradebook.exception,\
 	com.vasslatam.training.gradebook.model,\
 	com.vasslatam.training.gradebook.service,\
-	com.vasslatam.training.gradebook.service.persistence
+	com.vasslatam.training.gradebook.service.persistence,\
+	com.vasslatam.training.gradebook.constants
 -check: EXPORTS
 -includeresource: META-INF/service.xml=../gradebook-service/service.xml

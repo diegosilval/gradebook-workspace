@@ -31,7 +31,7 @@ public class EditAssignmentMVCRenderCommand implements MVCRenderCommand {
 	@Override
 	public String render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException {
 		String cmd=ParamUtil.getString(renderRequest, "CMD");
-		if (Constants.ADD.equals(cmd)) {
+		if (Constants.EDIT.equals(cmd)) {
 			try {
 				long assignmentId=ParamUtil.getLong(renderRequest, "assignmentId");
 				Assignment assignment = _assignmentService.getAssignment(assignmentId);
